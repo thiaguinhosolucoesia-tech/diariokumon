@@ -15,6 +15,7 @@
             --gray: #6c757d; --info-purple: #6f42c1; --evening-purple: #4f3d7a;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--background-color); color: var(--text-color); line-height: 1.6; padding: 15px; }
         .container { max-width: 1100px; margin: 0 auto; background-color: var(--white); padding: 20px 25px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07); }
         header { text-align: center; margin-bottom: 25px; }
@@ -82,7 +83,7 @@
     </main>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const STORAGE_KEY = 'kumonDailyLog_v5.2_Strategic';
+        const STORAGE_KEY = 'kumonDailyLog_v5.3_Strategic';
         const App = {
             data: {},
             today: '',
@@ -163,14 +164,28 @@
             showWeeklySummary() {
                 const summarySection = document.getElementById('weeklySummarySection');
                 summarySection.style.display = 'block';
-                const calculationDate = new Date();
-                const dayOfWeek = calculationDate.getDay();
-                const firstDayOfWeek = new Date(new Date().setDate(calculationDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)));
-                let summaryText = `RELATÓRIO DE PERFORMANCE SEMANAL\nSemana de ${firstDayOfWeek.toLocaleDateString('pt-BR')}\n================================================\n`;
+                
+                // --- INÍCIO DO CÓDIGO CORRIGIDO ---
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // Zera o tempo para evitar problemas de fuso horário
+                
+                const dayOfWeek = today.getDay(); // 0 (Sun) to 6 (Sat)
+                const offsetToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // Calcula o deslocamento para a segunda-feira
+                
+                const firstDayOfWeek = new Date(today);
+                firstDayOfWeek.setDate(today.getDate() + offsetToMonday);
+
+                const lastDayOfWeek = new Date(firstDayOfWeek);
+                lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6);
+                // --- FIM DO CÓDIGO CORRIGIDO ---
+
+                let summaryText = `RELATÓRIO DE PERFORMANCE SEMANAL\nSemana de ${firstDayOfWeek.toLocaleDateString('pt-BR')} a ${lastDayOfWeek.toLocaleDateString('pt-BR')}\n================================================\n`;
                 let daysLogged = 0, totalEnergy = 0, totalMatriculas = 0, totalCancelamentos = 0, uncompletedTasksCount = 0, plannedTasksCount = 0;
                 let achievements = [], challenges = [];
+
                 for (let i = 0; i < 7; i++) {
-                    const date = new Date(firstDayOfWeek); date.setDate(date.getDate() + i);
+                    const date = new Date(firstDayOfWeek);
+                    date.setDate(date.getDate() + i);
                     const dateString = this.getDateString(date);
                     const dayData = this.data[dateString];
                     if (dayData && dayData.review && dayData.review.energyLevel) {
@@ -184,6 +199,7 @@
                         if(dayData.review.uncompletedTasks) uncompletedTasksCount += dayData.review.uncompletedTasks.split('\n').filter(t => t.trim() !== '').length;
                     }
                 }
+
                 if(daysLogged === 0) { summaryText += "\nNenhum dia foi finalizado e analisado esta semana.\nPara um resumo poderoso, lembre-se de preencher a 'Revisão do Dia' diariamente."; }
                 else {
                     const taskCompletionRate = plannedTasksCount > 0 ? (((plannedTasksCount - uncompletedTasksCount) / plannedTasksCount) * 100) : 100;
@@ -201,17 +217,11 @@
             }
         };
         App.init();
-
-        // Service Worker registration code - more readable
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.service-worker.register('sw.js')
-                    .then(registration => {
-                        console.log('Service Worker registrado com sucesso:', registration.scope);
-                    })
-                    .catch(error => {
-                        console.log('Falha no registro do Service Worker:', error);
-                    });
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => { console.log('Service Worker registrado com sucesso:', registration.scope); })
+                    .catch(error => { console.log('Falha no registro do Service Worker:', error); });
             });
         }
     });
