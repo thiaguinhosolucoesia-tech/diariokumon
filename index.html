@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário de Bordo Kumon</title>
+    <meta name="theme-color" content="#0078c1"/>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <style>
+        :root {
+            --kumon-blue: #0078c1; --light-blue: #eef7ff; --text-color: #333;
+            --border-color: #ddd; --background-color: #f4f7f9; --white: #fff;
+            --success-green: #28a745; --warning-orange: #ffc107; --danger-red: #dc3545;
+            --gray: #6c757d; --info-purple: #6f42c1; --evening-purple: #4f3d7a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--background-color); color: var(--text-color); line-height: 1.6; padding: 15px; }
+        .container { max-width: 1100px; margin: 0 auto; background-color: var(--white); padding: 20px 25px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07); }
+        header { text-align: center; margin-bottom: 25px; }
+        header h1 { color: var(--kumon-blue); font-size: 2em; }
+        header #currentDate { font-size: 1.2em; color: var(--gray); font-weight: 500; }
+        .daily-wrapper { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        @media (min-width: 900px) { .daily-wrapper { grid-template-columns: 1fr 1fr; } }
+        .section-box { border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; }
+        .section-box h2 { font-size: 1.5em; color: var(--kumon-blue); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
+        #reviewBox { background-color: #fdfaff; border-color: #e5d9ff; }
+        #reviewBox h2 { color: var(--info-purple); }
+        .form-section { margin-bottom: 20px; }
+        .form-section label { display: block; font-weight: 600; margin-bottom: 8px; color: #444; }
+        input[type="text"], input[type="number"], textarea { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1em; }
+        textarea { min-height: 100px; resize: vertical; }
+        .kanban-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
+        .button-container { text-align: center; margin-top: 25px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        button { background-color: var(--kumon-blue); color: var(--white); border: none; padding: 12px 25px; border-radius: 8px; font-size: 1.05em; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        button.review-btn { background-color: var(--info-purple); }
+        #nextDayTips { display: none; margin-top: 25px; padding: 15px; background-color: #fffbeb; border-left: 5px solid var(--warning-orange); border-radius: 0 8px 8px 0; }
+        #weeklySummarySection { display: none; margin-top: 30px; }
+        #weeklySummaryContent { white-space: pre-wrap; font-family: "SF Mono", "Courier New", monospace; line-height: 1.8; background-color: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.9em; overflow-x: auto; }
+        .info-tip { color: var(--kumon-blue); cursor: help; font-size: 1em; margin-left: 5px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <header>
+            <h1>Diário de Bordo Kumon</h1>
+            <p id="currentDate"></p>
+        </header>
+        <div class="daily-wrapper">
+            <div id="planningBox" class="section-box">
+                <h2>Planejamento do Dia</h2>
+                <form id="planningForm">
+                    <div class="form-section"><label for="dailyFocus">Foco Principal do Dia <span class="info-tip" title="Qual é a única tarefa que, se concluída, fará o dia de hoje valer a pena?">💡</span></label><input type="text" id="dailyFocus" placeholder="Ex: Finalizar o cronograma de avaliações..."></div>
+                    <div class="form-section"><label for="criticalTasks">Tarefas Críticas (Sua atuação direta)</label><textarea id="criticalTasks" rows="3" placeholder="Ex: Ligar para mãe do aluno X..."></textarea></div>
+                    <div class="form-section"><label for="followUpPoints">Pontos de Acompanhamento</label><textarea id="followUpPoints" rows="2" placeholder="Alunos, colaboradores ou processos..."></textarea></div>
+                    <div class="form-section"><label for="blockers">Pendências a destravar HOJE</label><input type="text" id="blockers" placeholder="Ex: Confirmar entrega de material..."></div>
+                    <div class="form-section"><label>Anotações e Tarefas do Dia</label><div class="kanban-grid"><div><label for="todo">A Realizar</label><textarea id="todo"></textarea></div><div><label for="doing">Em Andamento</label><textarea id="doing"></textarea></div><div><label for="delegated">Delegado</label><textarea id="delegated"></textarea></div></div></div>
+                </form>
+            </div>
+            <div id="reviewBox" class="section-box">
+                <h2>Revisão e Fechamento do Dia</h2>
+                <form id="reviewForm">
+                    <div class="form-section"><label for="mainAchievement">Principal Conquista do Dia</label><input type="text" id="mainAchievement" placeholder="O que te deixou orgulhoso(a) hoje?"></div>
+                    <div class="form-section"><label for="mainChallenge">Principal Desafio ou Aprendizado</label><input type="text" id="mainChallenge" placeholder="O que não saiu como planejado e o que você aprendeu?"></div>
+                    <div class="form-section"><label for="uncompletedTasks">O que não foi concluído e por quê?</label><textarea id="uncompletedTasks" rows="2"></textarea></div>
+                    <div class="form-section"><label for="energyLevel">Nível de Energia/Produtividade (1 a 5)</label><input type="number" id="energyLevel" min="1" max="5" placeholder="1 = Esgotado(a), 5 = Super produtivo(a)"></div>
+                    <div class="button-container"><button type="button" id="endDayBtn" class="review-btn">Analisar Dia e Gerar Dicas</button></div>
+                </form>
+                <div id="nextDayTips"><h3>💡 Orientador Virtual para Amanhã</h3><p id="tipContent"></p></div>
+            </div>
+        </div>
+        <div class="button-container" style="margin-top: 40px;"><button type="button" id="showWeeklySummaryBtn">Gerar Resumo da Semana</button></div>
+        <section id="weeklySummarySection"><h2 style="text-align:center; color: var(--kumon-blue); margin-bottom: 20px;">Painel de Controle da Semana</h2><pre id="weeklySummaryContent"></pre></section>
+    </main>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const STORAGE_KEY = 'kumonDailyLog_v5_PWA';
+        const App = {
+            data: {},
+            today: '',
+            init() {
+                this.today = this.getDateString(new Date());
+                document.getElementById('currentDate').textContent = new Date().toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                this.loadData();
+                this.updateUI();
+                this.addEventListeners();
+            },
+            getDateString: date => date.toISOString().split('T')[0],
+            loadData() {
+                const storedData = localStorage.getItem(STORAGE_KEY);
+                this.data = storedData ? JSON.parse(storedData) : {};
+            },
+            saveData() {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
+            },
+            debounce(func, timeout = 500) {
+                let timer;
+                return (...args) => {
+                    clearTimeout(timer);
+                    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+                };
+            },
+            updateUI() {
+                const todayData = this.data[this.today];
+                if (todayData) {
+                    const plan = todayData.plan || {};
+                    Object.keys(plan).forEach(key => {
+                        const el = document.getElementById(key);
+                        if (el) el.value = plan[key];
+                    });
+                    if (todayData.review) {
+                        const review = todayData.review || {};
+                        Object.keys(review).forEach(key => {
+                            const el = document.getElementById(key);
+                            if (el) el.value = review[key];
+                        });
+                        document.getElementById('endDayBtn').disabled = true;
+                        this.generateTips(todayData);
+                    }
+                }
+            },
+            addEventListeners() {
+                const debouncedSave = this.debounce(() => this.saveCurrentState());
+                document.getElementById('planningForm').addEventListener('input', debouncedSave);
+                document.getElementById('reviewForm').addEventListener('input', debouncedSave);
+                document.getElementById('endDayBtn').addEventListener('click', () => this.endDay());
+                document.getElementById('showWeeklySummaryBtn').addEventListener('click', () => this.showWeeklySummary());
+            },
+            saveCurrentState() {
+                const plan = { dailyFocus: document.getElementById('dailyFocus').value.trim(), criticalTasks: document.getElementById('criticalTasks').value.trim(), followUpPoints: document.getElementById('followUpPoints').value.trim(), blockers: document.getElementById('blockers').value.trim(), todo: document.getElementById('todo').value.trim(), doing: document.getElementById('doing').value.trim(), delegated: document.getElementById('delegated').value.trim(), };
+                const review = { mainAchievement: document.getElementById('mainAchievement').value.trim(), mainChallenge: document.getElementById('mainChallenge').value.trim(), uncompletedTasks: document.getElementById('uncompletedTasks').value.trim(), energyLevel: document.getElementById('energyLevel').value, };
+                
+                if (!this.data[this.today]) this.data[this.today] = {};
+                this.data[this.today].plan = plan;
+                if(document.getElementById('mainAchievement').value) { this.data[this.today].review = review; } // Only save review if it's started
+                
+                this.saveData();
+                console.log('Autosaved at', new Date().toLocaleTimeString());
+            },
+            endDay() {
+                if (!document.getElementById('mainAchievement').value || !document.getElementById('energyLevel').value) {
+                    alert('Por favor, preencha a conquista do dia e seu nível de energia para finalizar.');
+                    return;
+                }
+                if (confirm('Tem certeza que deseja finalizar e analisar o dia? As dicas para amanhã serão geradas.')) {
+                    this.saveCurrentState(); // Final save
+                    this.updateUI(); // Re-runs to disable button and generate tips
+                }
+            },
+            generateTips(dayData) {
+                let tips = [];
+                const { plan, review } = dayData;
+                if (review.uncompletedTasks) tips.push(`Você mencionou pendências: "${review.uncompletedTasks}". Avalie se esta deve ser a primeira prioridade de amanhã.`);
+                if (review.energyLevel <= 2) tips.push(`Seu nível de energia foi baixo. A consistência vence a intensidade. Garanta uma pausa de 10 minutos amanhã. Sua unidade precisa de você no seu melhor.`);
+                if (review.mainAchievement) tips.push(`Sua conquista foi "${review.mainAchievement}". Como usar essa energia para motivar a equipe amanhã?`);
+                if (review.mainChallenge) tips.push(`O desafio que você enfrentou foi um aprendizado. Qual pequena mudança pode ser feita amanhã para evitar que ele se repita?`);
+                const tipsContainer = document.getElementById('nextDayTips');
+                document.getElementById('tipContent').textContent = tips.length > 0 ? tips.join('\n\n') : 'Dia produtivo! Continue com o ótimo trabalho amanhã.';
+                tipsContainer.style.display = 'block';
+            },
+            showWeeklySummary() {
+                const summarySection = document.getElementById('weeklySummarySection');
+                summarySection.style.display = 'block';
+                const today = new Date();
+                const dayOfWeek = today.getDay();
+                const firstDayOfWeek = new Date(today.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)));
+                let summaryText = `RELATÓRIO DE PERFORMANCE SEMANAL\nSemana de ${firstDayOfWeek.toLocaleDateString('pt-BR')}\n================================================\n`;
+                let daysLogged = 0, totalEnergy = 0; let achievements = [], challenges = [];
+                for (let i = 0; i < 7; i++) {
+                    const date = new Date(firstDayOfWeek); date.setDate(date.getDate() + i);
+                    const dateString = this.getDateString(date);
+                    if (this.data[dateString] && this.data[dateString].review && this.data[dateString].review.energyLevel) {
+                        daysLogged++; totalEnergy += parseInt(this.data[dateString].review.energyLevel, 10);
+                        achievements.push(`- ${date.toLocaleDateString('pt-BR', {weekday: 'short'})}: ${this.data[dateString].review.mainAchievement}`);
+                        challenges.push(`- ${date.toLocaleDateString('pt-BR', {weekday: 'short'})}: ${this.data[dateString].review.mainChallenge}`);
+                    }
+                }
+                if(daysLogged === 0) { summaryText += "\nNenhum dia foi finalizado e analisado esta semana."; }
+                else {
+                    summaryText += `\n[ DIAGNÓSTICO GERAL ]\n- Dias analisados: ${daysLogged}\n- Nível médio de energia: ${(totalEnergy / daysLogged).toFixed(1)} / 5.0\n`;
+                    summaryText += `\n[ PRINCIPAIS CONQUISTAS ]\n${achievements.join('\n')}\n`;
+                    summaryText += `\n[ PRINCIPAIS APRENDIZADOS ]\n${challenges.join('\n')}\n`;
+                    summaryText += `\n[ PONTOS PARA A ESTRATÉGIA ]\n- O que suas conquistas revelam sobre seus pontos fortes?\n- Qual é a causa raiz dos desafios recorrentes?\n- A carga de trabalho está sustentável?`;
+                }
+                document.getElementById('weeklySummaryContent').textContent = summaryText;
+                summarySection.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+        App.init();
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(registration => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
