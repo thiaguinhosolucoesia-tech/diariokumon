@@ -27,8 +27,7 @@
         .daily-wrapper { display: grid; grid-template-columns: 1fr; gap: 30px; }
         @media (min-width: 900px) { .daily-wrapper { grid-template-columns: 1fr 1fr; } }
         .section-box { border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; transition: all 0.3s ease; }
-        .section-box.day-finished { background-color: #f8f9fa; border-color: #e9ecef; }
-        fieldset:disabled { opacity: 0.7; }
+        fieldset:disabled { opacity: 0.7; background-color: #f8f9fa; }
         .section-box h2 { font-size: 1.5em; color: var(--kumon-blue); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
         #reviewBox { background-color: #fdfaff; border-color: #e5d9ff; }
         #reviewBox h2 { color: var(--info-purple); }
@@ -36,18 +35,18 @@
         .form-section label { display: block; font-weight: 600; margin-bottom: 8px; color: #444; }
         input[type="text"], input[type="number"], textarea { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1em; }
         textarea { min-height: 100px; resize: vertical; }
-        .kanban-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
         #todo-list li { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
         #todo-list li span { flex-grow: 1; }
         .button-container { text-align: center; margin-top: 25px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
         button { background-color: var(--kumon-blue); color: var(--white); border: none; padding: 12px 25px; border-radius: 8px; font-size: 1.05em; font-weight: 600; cursor: pointer; transition: all 0.3s; }
         button:disabled { background-color: var(--gray); cursor: not-allowed; transform: none; box-shadow: none; }
         button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        button.review-btn { background-color: var(--info-purple); }
-        #nextDayTips { display: none; margin-top: 25px; padding: 15px; background-color: #fffbeb; border-left: 5px solid var(--warning-orange); border-radius: 0 8px 8px 0; }
+        button.save-btn { background-color: var(--success-green); }
+        #nextDayTips, .edit-log { display: none; margin-top: 25px; padding: 15px; background-color: #fffbeb; border-left: 5px solid var(--warning-orange); border-radius: 0 8px 8px 0; font-size: 0.9em; }
+        .edit-log { background-color: #f0f0f0; border-color: var(--gray); }
         #weeklySummarySection { display: none; margin-top: 30px; }
         #weeklySummaryContent { white-space: pre-wrap; font-family: "SF Mono", "Courier New", monospace; line-height: 1.8; background-color: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.9em; overflow-x: auto; }
-        .info-tip { color: var(--kumon-blue); cursor: help; font-size: 1em; margin-left: 5px; font-weight: bold; }
+        footer { text-align: center; margin-top: 40px; color: var(--gray); font-size: 0.9em; }
     </style>
 </head>
 <body>
@@ -60,18 +59,26 @@
                 <button id="nextDayBtn" class="nav-btn">&gt;</button>
             </div>
         </header>
+
+        <div id="settingsBox" class="section-box" style="margin-bottom: 20px;">
+            <div class="form-section">
+                <label for="userName">Seu Nome (para registro de edições)</label>
+                <input type="text" id="userName" placeholder="Digite seu nome aqui...">
+            </div>
+        </div>
+
         <div class="daily-wrapper">
             <div id="planningBox" class="section-box">
                 <h2>Planejamento do Dia</h2>
                 <form id="planningForm">
                     <fieldset id="planningFieldset">
-                        <div class="form-section"><label for="dailyFocus">Foco Principal do Dia <span class="info-tip" title="Qual é a única tarefa que, se concluída, fará o dia de hoje valer a pena?">💡</span></label><input type="text" id="dailyFocus" placeholder="Ex: Finalizar o cronograma de avaliações..."></div>
+                        <div class="form-section"><label for="dailyFocus">Foco Principal do Dia</label><input type="text" id="dailyFocus" placeholder="Ex: Finalizar o cronograma de avaliações..."></div>
                         <div class="form-section"><label for="criticalTasks">Tarefas Críticas (Sua atuação direta)</label><textarea id="criticalTasks" rows="3" placeholder="Ex: Ligar para mãe do aluno X..."></textarea></div>
                         <div class="form-section"><label>A Realizar</label>
                             <ul id="todo-list" style="list-style-type: none; padding-left: 0;"></ul>
                             <div style="display:flex; gap: 5px; margin-top: 10px;"><input type="text" id="new-todo-input" placeholder="Nova tarefa..."><button type="button" id="add-todo-btn">+</button></div>
                         </div>
-                        <div class="kanban-grid">
+                        <div style="display: grid; gap: 20px; grid-template-columns: 1fr 1fr;">
                            <div><label for="doing">Em Andamento</label><textarea id="doing"></textarea></div>
                            <div><label for="delegated">Delegado</label><textarea id="delegated"></textarea></div>
                         </div>
@@ -82,91 +89,112 @@
                 <h2>Revisão e Fechamento do Dia</h2>
                 <form id="reviewForm">
                      <fieldset id="reviewFieldset">
-                        <div class="form-section"><label for="mainAchievement">Principal Conquista do Dia</label><input type="text" id="mainAchievement" placeholder="O que te deixou orgulhoso(a) hoje?"></div>
-                        <div class="form-section"><label for="mainChallenge">Principal Desafio ou Aprendizado</label><input type="text" id="mainChallenge" placeholder="O que não saiu como planejado e o que você aprendeu?"></div>
+                        <div class="form-section"><label for="mainAchievement">Principal Conquista</label><input type="text" id="mainAchievement"></div>
+                        <div class="form-section"><label for="mainChallenge">Principal Desafio/Aprendizado</label><input type="text" id="mainChallenge"></div>
                         <div class="form-section"><label for="uncompletedTasks">O que não foi concluído e por quê?</label><textarea id="uncompletedTasks" rows="2"></textarea></div>
-                        <div class="form-section"><label>KPIs do Dia</label><div class="kanban-grid"><div><label for="kpiMatriculas">Matrículas</label><input type="number" id="kpiMatriculas" min="0" value="0"></div><div><label for="kpiCancelamentos">Cancelamentos</label><input type="number" id="kpiCancelamentos" min="0" value="0"></div><div><label for="energyLevel">Energia (1-5)</label><input type="number" id="energyLevel" min="1" max="5"></div></div></div>
-                        <div class="button-container"><button type="button" id="endDayBtn" class="review-btn">Analisar Dia e Gerar Dicas</button></div>
+                        <div class="form-section"><label>KPIs do Dia</label><div style="display: grid; gap: 15px; grid-template-columns: repeat(3, 1fr);"><div><label for="kpiMatriculas">Matrículas</label><input type="number" id="kpiMatriculas" min="0" value="0"></div><div><label for="kpiCancelamentos">Cancelamentos</label><input type="number" id="kpiCancelamentos" min="0" value="0"></div><div><label for="energyLevel">Energia (1-5)</label><input type="number" id="energyLevel" min="1" max="5"></div></div></div>
                     </fieldset>
                 </form>
+                <div class="button-container">
+                    <button type="button" id="editDayBtn">Editar Dia</button>
+                    <button type="button" id="endDayBtn">Analisar e Finalizar Dia</button>
+                </div>
                 <div id="nextDayTips"><h3>💡 Orientador Virtual para Amanhã</h3><p id="tipContent"></p></div>
+                <div class="edit-log" id="editLog"></div>
             </div>
         </div>
-        <div class="button-container" style="margin-top: 40px;"><button type="button" id="showWeeklySummaryBtn">Gerar Resumo da Semana</button></div>
+        <div class="button-container" style="margin-top: 40px;"><button type="button" id="showWeeklySummaryBtn">Gerar Relatório da Semana</button></div>
         <section id="weeklySummarySection"><h2 style="text-align:center; color: var(--kumon-blue); margin-bottom: 20px;">Painel de Controle da Semana</h2><pre id="weeklySummaryContent"></pre></section>
     </main>
+    <footer><p>Desenvolvido com 🤖, por thIAguinho Soluções</p></footer>
+
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const OLD_STORAGE_KEY = 'kumonDailyLog_v5.3_Strategic';
-        const STORAGE_KEY = 'kumonDailyLog_v6.0_Navigable';
+        const OLD_STORAGE_KEY_V6 = 'kumonDailyLog_v6.0_Navigable';
+        const STORAGE_KEY = 'kumonDailyLog_v7.0_Editable';
+        const USER_SETTINGS_KEY = 'kumonDiaryUserSettings';
+
         const App = {
             data: {},
+            userSettings: { name: '' },
             displayedDate: new Date(),
             today: new Date(),
+            isEditing: false,
 
             init() {
                 this.today.setHours(0, 0, 0, 0);
                 this.displayedDate.setHours(0, 0, 0, 0);
                 
-                this.runMigration(); // Check for old data and migrate
+                this.runMigration();
+                this.loadUserSettings();
                 this.loadData();
                 this.renderDay(this.getDateString(this.displayedDate));
                 this.addEventListeners();
             },
 
             runMigration() {
-                const oldDataStr = localStorage.getItem(OLD_STORAGE_KEY);
+                const oldDataStr = localStorage.getItem(OLD_STORAGE_KEY_V6);
                 if (oldDataStr) {
-                    console.log("Dados antigos encontrados. Iniciando migração...");
                     const oldData = JSON.parse(oldDataStr);
                     const newData = {};
                     for (const dateKey in oldData) {
                         const oldDay = oldData[dateKey];
                         newData[dateKey] = {
-                            plan: {
-                                dailyFocus: oldDay.plan.dailyFocus || '',
-                                criticalTasks: oldDay.plan.criticalTasks || '',
-                                todo: oldDay.plan.todo ? oldDay.plan.todo.split('\n').map(t => ({ text: t, deferred: false })) : [],
-                                doing: oldDay.plan.doing || '',
-                                delegated: oldDay.plan.delegated || '',
-                            },
-                            review: oldDay.review ? { ...oldDay.review } : null
+                            ...oldDay,
+                            log: [] // Add the new log property
                         };
                     }
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(newData));
-                    localStorage.removeItem(OLD_STORAGE_KEY);
-                    alert("Seus dados foram atualizados para a nova versão do aplicativo com sucesso!");
+                    localStorage.removeItem(OLD_STORAGE_KEY_V6);
+                    alert("Seus dados foram atualizados para a nova versão com histórico de edições!");
                 }
+            },
+            
+            loadUserSettings() {
+                const settings = localStorage.getItem(USER_SETTINGS_KEY);
+                if (settings) {
+                    this.userSettings = JSON.parse(settings);
+                }
+                document.getElementById('userName').value = this.userSettings.name || '';
+            },
+
+            saveUserSettings() {
+                this.userSettings.name = document.getElementById('userName').value.trim();
+                localStorage.setItem(USER_SETTINGS_KEY, JSON.stringify(this.userSettings));
             },
 
             getDateString: date => date.toISOString().split('T')[0],
             loadData() { this.data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; },
             saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data)); },
-            debounce(func, timeout = 700) { let timer; return (...args) => { clearTimeout(timer); timer = setTimeout(() => { func.apply(this, args); }, timeout); }; },
             
             renderDay(dateString) {
-                // Update date display
                 document.getElementById('currentDate').textContent = this.displayedDate.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
                 document.getElementById('nextDayBtn').disabled = this.getDateString(this.displayedDate) === this.getDateString(this.today);
                 
-                // Clear forms
                 document.getElementById('planningForm').reset();
                 document.getElementById('reviewForm').reset();
                 document.getElementById('todo-list').innerHTML = '';
                 document.getElementById('nextDayTips').style.display = 'none';
+                document.getElementById('editLog').style.display = 'none';
 
                 const dayData = this.data[dateString];
+                this.isEditing = false;
                 
-                // Set default state for fieldsets
-                document.getElementById('planningFieldset').disabled = false;
-                document.getElementById('reviewFieldset').disabled = false;
-                document.getElementById('planningBox').classList.remove('day-finished');
-                document.getElementById('reviewBox').classList.remove('day-finished');
-                document.getElementById('endDayBtn').disabled = false;
+                if (!dayData || !dayData.review) { // Dia não iniciado ou não finalizado
+                    this.isEditing = true;
+                    document.getElementById('editDayBtn').style.display = 'none';
+                    document.getElementById('endDayBtn').style.display = 'block';
+                    document.getElementById('endDayBtn').textContent = 'Analisar e Finalizar Dia';
+                } else { // Dia finalizado
+                    document.getElementById('editDayBtn').style.display = 'block';
+                    document.getElementById('editDayBtn').textContent = 'Editar Dia';
+                    document.getElementById('endDayBtn').style.display = 'none';
+                }
+                
+                this.toggleFieldsDisabled(!this.isEditing);
 
                 if (!dayData) return;
 
-                // Populate planning form
                 const plan = dayData.plan || {};
                 document.getElementById('dailyFocus').value = plan.dailyFocus || '';
                 document.getElementById('criticalTasks').value = plan.criticalTasks || '';
@@ -174,31 +202,51 @@
                 document.getElementById('delegated').value = plan.delegated || '';
                 
                 const todoList = document.getElementById('todo-list');
-                (plan.todo || []).forEach(task => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<span>${task.text}</span> <label><input type="checkbox" class="defer-checkbox" ${task.deferred ? 'checked' : ''}> Adiar</label>`;
-                    todoList.appendChild(li);
-                });
+                (plan.todo || []).forEach(task => this.createTodoElement(task));
                 
-                // Populate review form if it exists
                 if (dayData.review) {
                     const review = dayData.review || {};
                     Object.keys(review).forEach(key => { const el = document.getElementById(key); if (el) el.value = review[key]; });
-                    document.getElementById('planningFieldset').disabled = true;
-                    document.getElementById('reviewFieldset').disabled = true;
-                    document.getElementById('planningBox').classList.add('day-finished');
-                    document.getElementById('reviewBox').classList.add('day-finished');
-                    document.getElementById('endDayBtn').disabled = true;
                     this.generateTips(dayData);
+                }
+
+                if (dayData.log && dayData.log.length > 0) {
+                    const lastEdit = dayData.log[dayData.log.length - 1];
+                    const editDate = new Date(lastEdit.timestamp).toLocaleString('pt-BR');
+                    document.getElementById('editLog').textContent = `Última edição por ${lastEdit.user} em ${editDate}.`;
+                    document.getElementById('editLog').style.display = 'block';
                 }
             },
 
+            toggleFieldsDisabled(isDisabled) {
+                document.getElementById('planningFieldset').disabled = isDisabled;
+                document.getElementById('reviewFieldset').disabled = isDisabled;
+            },
+
+            toggleEditMode() {
+                const dateString = this.getDateString(this.displayedDate);
+                const dayData = this.data[dateString];
+                if (!dayData || !dayData.review) return; // Can't edit a non-finalized day
+
+                this.isEditing = !this.isEditing;
+                this.toggleFieldsDisabled(!this.isEditing);
+
+                const editBtn = document.getElementById('editDayBtn');
+                if (this.isEditing) {
+                    editBtn.textContent = 'Salvar Alterações';
+                    editBtn.classList.add('save-btn');
+                } else {
+                    editBtn.textContent = 'Editar Dia';
+                    editBtn.classList.remove('save-btn');
+                    this.saveCurrentState(true); // Save with edit log
+                    this.renderDay(dateString); // Re-render to show updated state
+                }
+            },
+            
             addEventListeners() {
-                const debouncedSave = this.debounce(() => this.saveCurrentState());
-                document.getElementById('planningForm').addEventListener('input', debouncedSave);
-                document.getElementById('reviewForm').addEventListener('input', debouncedSave);
-                document.getElementById('todo-list').addEventListener('change', debouncedSave);
+                document.getElementById('userName').addEventListener('change', () => this.saveUserSettings());
                 document.getElementById('endDayBtn').addEventListener('click', () => this.endDay());
+                document.getElementById('editDayBtn').addEventListener('click', () => this.toggleEditMode());
                 document.getElementById('showWeeklySummaryBtn').addEventListener('click', () => this.showWeeklySummary());
                 document.getElementById('prevDayBtn').addEventListener('click', () => this.navigateDays(-1));
                 document.getElementById('nextDayBtn').addEventListener('click', () => this.navigateDays(1));
@@ -215,25 +263,24 @@
                 const input = document.getElementById('new-todo-input');
                 const text = input.value.trim();
                 if (text) {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<span>${text}</span> <label><input type="checkbox" class="defer-checkbox"> Adiar</label>`;
-                    document.getElementById('todo-list').appendChild(li);
+                    this.createTodoElement({ text, deferred: false });
                     input.value = '';
-                    this.saveCurrentState();
+                    this.saveCurrentState(false);
                 }
             },
 
-            saveCurrentState() {
-                const dateString = this.getDateString(this.displayedDate);
-                if (this.data[dateString]?.review) return;
+            createTodoElement(task) {
+                const li = document.createElement('li');
+                li.innerHTML = `<span>${task.text}</span> <label><input type="checkbox" class="defer-checkbox" ${task.deferred ? 'checked' : ''}> Adiar</label>`;
+                document.getElementById('todo-list').appendChild(li);
+            },
 
-                const todoItems = [];
-                document.querySelectorAll('#todo-list li').forEach(li => {
-                    todoItems.push({
-                        text: li.querySelector('span').textContent,
-                        deferred: li.querySelector('.defer-checkbox').checked
-                    });
-                });
+            saveCurrentState(isEdit) {
+                const dateString = this.getDateString(this.displayedDate);
+                const todoItems = Array.from(document.querySelectorAll('#todo-list li')).map(li => ({
+                    text: li.querySelector('span').textContent,
+                    deferred: li.querySelector('.defer-checkbox').checked
+                }));
 
                 const plan = {
                     dailyFocus: document.getElementById('dailyFocus').value.trim(),
@@ -242,7 +289,6 @@
                     doing: document.getElementById('doing').value.trim(),
                     delegated: document.getElementById('delegated').value.trim(),
                 };
-
                 const review = {
                     mainAchievement: document.getElementById('mainAchievement').value.trim(),
                     mainChallenge: document.getElementById('mainChallenge').value.trim(),
@@ -251,12 +297,20 @@
                     kpiMatriculas: document.getElementById('kpiMatriculas').value,
                     kpiCancelamentos: document.getElementById('kpiCancelamentos').value,
                 };
-
-                if (!this.data[dateString]) this.data[dateString] = {};
+                
+                if (!this.data[dateString]) this.data[dateString] = { log: [] };
                 this.data[dateString].plan = plan;
                 if(review.mainAchievement || review.energyLevel) { this.data[dateString].review = review; }
+                
+                if (isEdit) {
+                    this.data[dateString].log.push({
+                        user: this.userSettings.name || 'Usuário',
+                        timestamp: new Date().toISOString()
+                    });
+                }
+
                 this.saveData();
-                console.log('Autosaved at', new Date().toLocaleTimeString());
+                console.log('State saved at', new Date().toLocaleTimeString());
             },
 
             endDay() {
@@ -264,35 +318,32 @@
                     alert('Por favor, preencha a Conquista do Dia e seu Nível de Energia para finalizar.');
                     return;
                 }
-                if (confirm('Tem certeza que deseja finalizar e analisar o dia? Tarefas adiadas serão movidas para amanhã.')) {
-                    this.saveCurrentState(); // Final save before processing
-                    
+                if (confirm('Tem certeza que deseja finalizar e analisar o dia?')) {
+                    this.saveCurrentState(false);
+                    // Defer tasks logic...
                     const dateString = this.getDateString(this.displayedDate);
                     const dayData = this.data[dateString];
-
-                    // Defer tasks
                     const deferredTasks = dayData.plan.todo.filter(t => t.deferred);
                     if (deferredTasks.length > 0) {
                         const nextDay = new Date(this.displayedDate);
                         nextDay.setDate(nextDay.getDate() + 1);
                         const nextDayString = this.getDateString(nextDay);
-                        if (!this.data[nextDayString]) this.data[nextDayString] = { plan: { todo: [] } };
+                        if (!this.data[nextDayString]) this.data[nextDayString] = { plan: { todo: [] }, log:[] };
                         if (!this.data[nextDayString].plan.todo) this.data[nextDayString].plan.todo = [];
-                        
                         deferredTasks.forEach(task => {
                             this.data[nextDayString].plan.todo.unshift({ text: `[ADIADO] ${task.text}`, deferred: false });
                         });
                     }
-                    
                     this.saveData();
-                    this.renderDay(dateString); // Re-render the finalized day
-                    alert('Dia finalizado e analisado! Insights gerados e tarefas adiadas.');
+                    this.renderDay(dateString);
+                    alert('Dia finalizado e analisado! Insights gerados.');
                 }
             },
             
             showWeeklySummary() {
                 const summarySection = document.getElementById('weeklySummarySection');
                 summarySection.style.display = 'block';
+                
                 const today = new Date(this.displayedDate);
                 today.setHours(0, 0, 0, 0);
                 const dayOfWeek = today.getDay();
@@ -301,37 +352,60 @@
                 firstDayOfWeek.setDate(today.getDate() + offsetToMonday);
                 const lastDayOfWeek = new Date(firstDayOfWeek);
                 lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6);
-                let summaryText = `RELATÓRIO DE PERFORMANCE SEMANAL\nSemana de ${firstDayOfWeek.toLocaleDateString('pt-BR')} a ${lastDayOfWeek.toLocaleDateString('pt-BR')}\n================================================\n`;
-                let daysLogged = 0, totalEnergy = 0, totalMatriculas = 0, totalCancelamentos = 0;
-                let achievements = [], challenges = [];
+
+                let summaryText = `RELATÓRIO DE PERFORMANCE SEMANAL\nSemana de ${firstDayOfWeek.toLocaleDateString('pt-BR')} a ${lastDayOfWeek.toLocaleDateString('pt-BR')}\n================================================\n\n`;
+                let daysData = [];
                 for (let i = 0; i < 7; i++) {
                     const date = new Date(firstDayOfWeek);
                     date.setDate(date.getDate() + i);
                     const dateString = this.getDateString(date);
                     const dayData = this.data[dateString];
                     if (dayData && dayData.review && dayData.review.energyLevel) {
-                        daysLogged++;
-                        totalEnergy += parseInt(dayData.review.energyLevel, 10);
-                        totalMatriculas += parseInt(dayData.review.kpiMatriculas, 10) || 0;
-                        totalCancelamentos += parseInt(dayData.review.kpiCancelamentos, 10) || 0;
-                        const dayLabel = date.toLocaleDateString('pt-BR', {weekday: 'short', day: '2-digit', month: '2-digit'});
-                        if(dayData.review.mainAchievement) achievements.push(`- [${dayLabel}]: ${dayData.review.mainAchievement}`);
-                        if(dayData.review.mainChallenge) challenges.push(`- [${dayLabel}]: ${dayData.review.mainChallenge}`);
+                        daysData.push({ date, data: dayData });
+                        const dayLabel = date.toLocaleDateString('pt-BR', {weekday: 'long', day: '2-digit', month: '2-digit'});
+                        summaryText += `--- ${dayLabel.toUpperCase()} ---\n`;
+                        summaryText += `  Foco: ${dayData.plan.dailyFocus || 'Não definido'}\n`;
+                        summaryText += `  Conquista: ${dayData.review.mainAchievement || 'Não registrada'}\n`;
+                        summaryText += `  Desafio: ${dayData.review.mainChallenge || 'Não registrado'}\n\n`;
                     }
                 }
-                if(daysLogged === 0) { summaryText += "\nNenhum dia foi finalizado e analisado nesta semana.\nPara um resumo poderoso, lembre-se de preencher a 'Revisão do Dia' diariamente."; }
-                else {
-                    summaryText += `\n[ DIAGNÓSTICO DE PERFORMANCE ]\n- Dias analisados: ${daysLogged}\n- Nível médio de energia: ${(totalEnergy / daysLogged).toFixed(1)}/5.0\n- Saldo de alunos: ${totalMatriculas} (matrículas) - ${totalCancelamentos} (cancelamentos) = ${totalMatriculas - totalCancelamentos}\n`;
-                    summaryText += `\n[ ANÁLISE DO ORIENTADOR VIRTUAL ]\n`;
-                    if (totalCancelamentos > totalMatriculas) { summaryText += `- ALERTA DE RETENÇÃO: O número de cancelamentos superou o de matrículas. A próxima semana deve ter FOCO MÁXIMO em ações de fidelização.\n`; }
-                    else if (totalMatriculas > 0) { summaryText += `- MOMENTUM DE CAPTAÇÃO: Você matriculou novos alunos! Analise de onde eles vieram e reforce esse canal de marketing.\n`; }
-                    summaryText += `\n[ PRINCIPAIS CONQUISTAS ]\n${achievements.length > 0 ? achievements.join('\n') : 'Nenhuma conquista registrada.'}\n`;
-                    summaryText += `\n[ PRINCIPAIS APRENDIZADOS ]\n${challenges.length > 0 ? challenges.join('\n') : 'Nenhum desafio registrado.'}\n`;
+
+                if(daysData.length === 0) {
+                    summaryText += "Nenhum dia foi finalizado e analisado nesta semana.\nPara um resumo poderoso, lembre-se de preencher a 'Revisão do Dia' diariamente.";
+                } else {
+                    summaryText += this.generateProfessionalAnalysis(daysData);
                 }
+                
                 document.getElementById('weeklySummaryContent').textContent = summaryText;
                 summarySection.scrollIntoView({ behavior: 'smooth' });
             },
 
+            generateProfessionalAnalysis(daysData) {
+                let analysis = "--- ANÁLISE PROFISSIONAL DA SEMANA ---\n";
+                const totalDays = daysData.length;
+                const totalMatriculas = daysData.reduce((sum, d) => sum + (parseInt(d.data.review.kpiMatriculas, 10) || 0), 0);
+                const totalCancelamentos = daysData.reduce((sum, d) => sum + (parseInt(d.data.review.kpiCancelamentos, 10) || 0), 0);
+                const avgEnergy = daysData.reduce((sum, d) => sum + (parseInt(d.data.review.energyLevel, 10) || 0), 0) / totalDays;
+
+                analysis += `  Diagnóstico de KPIs:\n`;
+                analysis += `    - Saldo de alunos: ${totalMatriculas} (matrículas) - ${totalCancelamentos} (cancelamentos) = ${totalMatriculas - totalCancelamentos}\n`;
+                analysis += `    - Nível médio de energia: ${avgEnergy.toFixed(1)}/5.0\n\n`;
+                analysis += `  Recomendações Estratégicas:\n`;
+                if (totalCancelamentos > totalMatriculas) {
+                    analysis += `    - ALERTA DE RETENÇÃO: O balanço de alunos foi negativo. A prioridade para a próxima semana deve ser a fidelização. Sugestão: Inicie a semana mapeando os alunos que estão em platô ou desmotivados e crie um plano de ação para reconectá-los.\n`;
+                } else if (totalMatriculas > totalCancelamentos) {
+                    analysis += `    - MOMENTUM DE CAPTAÇÃO: O balanço de alunos foi positivo. Excelente! Analise a origem dessas novas matrículas (indicação, fachada, redes sociais?) e intensifique os esforços nesse canal específico.\n`;
+                } else {
+                     analysis += `    - ESTABILIDADE: A unidade manteve o número de alunos. É um bom momento para focar na qualidade dos processos internos e no desenvolvimento da equipe, preparando o terreno para o próximo ciclo de crescimento.\n`;
+                }
+
+                if (avgEnergy < 2.5) {
+                    analysis += `    - GESTÃO DE ENERGIA: Seu nível de energia esteve consistentemente baixo. Isso é um risco para a sustentabilidade da gestão. Para a próxima semana, identifique UMA tarefa operacional que possa ser delegada ou automatizada. Proteger sua energia é uma atividade estratégica.\n`;
+                }
+                
+                return analysis;
+            },
+            
             generateTips(dayData) { /* generateTips remains the same */ },
         };
         App.init();
