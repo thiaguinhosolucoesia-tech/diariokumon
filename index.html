@@ -3,131 +3,1014 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diário de Bordo Kumon v8.6 (Final)</title>
-    <meta name="theme-color" content="#0078C1"/>
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icon.png">
+    <title>Diário de Bordo Kumon v8.final</title>
     <style>
-        :root{--kumon-blue:#0078C1;--kumon-red-accent:#DA291C;--light-blue:#D6EAF8;--text-color:#333;--border-color:#A9CCE3;--background-color:#EBF5FB;--white:#fff;--success-green:#28a745;--warning-orange:#ffc107;--gray:#6c757d;--info-purple:#6f42c1;--header-bg:#CCE5FF}*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background-color:var(--background-color);color:var(--text-color);line-height:1.6;padding:15px}.container{max-width:1100px;margin:0 auto;background-color:var(--white);padding:20px 25px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.07)}header{text-align:center;margin-bottom:25px;background-color:var(--header-bg);padding:15px;border-radius:8px}header h1{color:var(--kumon-blue);font-size:2.2em;margin-bottom:10px}.date-navigation{display:flex;align-items:center;justify-content:center;gap:15px;margin-top:5px}.nav-btn{background:none;border:none;font-size:2.2em;cursor:pointer;color:var(--kumon-blue);padding:0 10px;transition:transform .2s}.nav-btn:hover:not(:disabled){transform:scale(1.1)}.nav-btn:disabled{color:var(--gray);opacity:.5;cursor:not-allowed}#currentDate{font-size:1.3em;color:var(--kumon-blue);font-weight:600}#actionBank{margin-bottom:20px;border:1px solid var(--border-color);border-radius:8px;background-color:var(--light-blue)}#actionBank summary{background-color:var(--kumon-blue);color:var(--white);padding:12px 15px;font-weight:600;cursor:pointer;border-radius:8px;transition:background-color .2s}#actionBank[open] summary{border-bottom-left-radius:0;border-bottom-right-radius:0}.action-bank-content{max-height:350px;overflow-y:auto;padding:15px;background-color:var(--light-blue);border-bottom-left-radius:8px;border-bottom-right-radius:8px}.action-bank-content h4{color:var(--kumon-blue);margin-top:15px;margin-bottom:8px;border-bottom:1px solid var(--border-color);padding-bottom:5px;font-size:1.1em}.action-item{padding:10px;margin:4px 0;border-radius:6px;cursor:pointer;transition:background-color .2s,color .2s,transform .1s;background-color:var(--white);border:1px solid var(--border-color)}.action-item:hover{background-color:var(--kumon-red-accent);color:var(--white);transform:translateX(5px);box-shadow:2px 2px 5px rgba(0,0,0,.1)}.daily-wrapper{display:grid;grid-template-columns:1fr;gap:30px}@media (min-width:900px){.daily-wrapper{grid-template-columns:1fr 1fr}}.section-box{border:1px solid var(--border-color);border-radius:8px;padding:20px;transition:all .3s ease;background-color:var(--white)}fieldset:disabled{opacity:.7;background-color:#F0F8FF}.section-box h2{font-size:1.6em;color:var(--kumon-blue);border-bottom:2px solid var(--border-color);padding-bottom:10px;margin-bottom:20px}#reviewBox{background-color:#F8F9FF;border-color:#C5D8ED}#reviewBox h2{color:var(--info-purple)}.form-section label{display:block;font-weight:600;margin-bottom:8px;color:#444}input[type=text],input[type=number],textarea{width:100%;padding:12px;border:1px solid var(--border-color);border-radius:5px;font-size:1em;background-color:var(--white)}textarea{min-height:100px;resize:vertical}#todo-list li{display:flex;align-items:center;gap:10px;margin-bottom:8px;background-color:#f8f8f8;padding:8px;border-radius:4px;border:1px solid #eee}#todo-list li span{flex-grow:1;word-break:break-word}#todo-list .delete-btn{background-color:#ff5c5c;color:#fff;border:none;border-radius:50%;width:24px;height:24px;font-weight:700;cursor:pointer;flex-shrink:0}.button-container{text-align:center;margin-top:25px;display:flex;justify-content:center;gap:15px;flex-wrap:wrap}button{background-color:var(--kumon-blue);color:var(--white);border:none;padding:12px 25px;border-radius:8px;font-size:1.05em;font-weight:600;cursor:pointer;transition:all .3s}button:disabled{background-color:var(--gray);cursor:not-allowed}button:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,.1)}button.save-btn,button#endDayBtn{background-color:var(--kumon-red-accent)}#nextDayTips,.edit-log{display:none;margin-top:25px;padding:15px;background-color:#fffbeb;border-left:5px solid var(--warning-orange);border-radius:0 8px 8px 0;font-size:.9em}.edit-log{background-color:#EAF2F8;border-color:var(--kumon-blue);color:var(--kumon-blue)}#weeklySummarySection{display:none;margin-top:30px}#weeklySummaryContent{white-space:pre-wrap;font-family:"SF Mono","Courier New",monospace;line-height:1.8;background-color:#F0F8FF;padding:20px;border-radius:8px;border:1px solid var(--border-color);font-size:.9em;overflow-x:auto;color:var(--text-color)}footer{text-align:center;margin-top:40px;color:var(--gray);font-size:.9em;padding:10px;background-color:var(--header-bg);border-radius:8px}#recoveryBtn{background-color:var(--warning-orange)}
+        :root {
+            --kumon-blue: #0078c1;
+            --kumon-red-accent: #d62828;
+            --light-blue: #eaf6ff;
+            --text-color: #333;
+            --border-color: #d1e9f6;
+            --background-color: #f9fcff;
+            --white: #ffffff;
+            --gray: #888;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info-purple: #6f42c1;
+            --header-bg: #f8f9fa;
+            --recovery-btn-bg: #fca311;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 120, 193, 0.1);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        header h1 {
+            color: var(--kumon-blue);
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+        
+        .date-navigation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        #currentDate {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--kumon-blue);
+        }
+
+        .nav-btn {
+            background: var(--kumon-blue);
+            color: var(--white);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background-color: #005a9e;
+            transform: scale(1.1);
+        }
+
+        main {
+            padding: 20px;
+        }
+        
+        .section-box, fieldset {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        fieldset {
+            border: 1px solid var(--border-color);
+        }
+
+        h2, h3 {
+            color: var(--kumon-blue);
+            border-bottom: 2px solid var(--light-blue);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--kumon-blue);
+            box-shadow: 0 0 8px rgba(0, 120, 193, 0.25);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            font-size: 1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        #endDayBtn {
+            background-color: var(--success);
+            color: var(--white);
+        }
+
+        #endDayBtn.edit-mode {
+            background-color: var(--warning);
+            color: var(--text-color);
+        }
+
+        #showWeeklySummaryBtn {
+            background-color: var(--info-purple);
+            color: var(--white);
+        }
+        
+        .download-btn {
+            background-color: var(--gray);
+            color: var(--white);
+        }
+
+        #recoveryBtn {
+            background-color: var(--recovery-btn-bg);
+            color: var(--white);
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #todo-section .todo-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        #todo-section input {
+            flex-grow: 1;
+        }
+
+        #add-todo-btn {
+            background-color: var(--kumon-blue);
+            color: var(--white);
+            padding: 0 20px;
+        }
+
+        #todo-list {
+            list-style: none;
+        }
+
+        #todo-list li {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+        }
+        
+        #todo-list li:last-child {
+            border-bottom: none;
+        }
+
+        #todo-list li:hover {
+            background-color: #f9f9f9;
+        }
+        
+        #todo-list input[type="checkbox"] {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+        }
+
+        #todo-list span {
+            flex-grow: 1;
+        }
+        
+        #todo-list .delete-todo-btn {
+            background-color: transparent;
+            border: none;
+            color: var(--kumon-red-accent);
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+
+        #todo-list .delete-todo-btn:hover {
+            background-color: #ffebee;
+        }
+
+        #kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        fieldset:disabled {
+            opacity: 0.7;
+            background-color: #f8f8f8;
+            pointer-events: none; /* This is key to prevent interaction */
+        }
+        
+        #weeklySummarySection, #nextDayTips {
+            display: none; /* Hidden by default */
+            margin-top: 20px;
+            padding: 20px;
+            background-color: var(--light-blue);
+            border-radius: 8px;
+        }
+
+        #weeklySummaryContent, #tipContent {
+            white-space: pre-wrap;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        #actionBank details {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        #actionBank summary {
+            padding: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: var(--light-blue);
+        }
+
+        #actionBank-content {
+            padding: 15px;
+        }
+
+        .action-category {
+            margin-bottom: 15px;
+        }
+        
+        .action-item {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 10px;
+            margin-bottom: 5px;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .action-item:hover {
+            background-color: #e0e0e0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--header-bg);
+            color: var(--gray);
+        }
+
     </style>
 </head>
 <body>
-    <main class="container">
+
+    <div class="container">
         <header>
             <h1>Diário de Bordo Kumon</h1>
-            <div class="date-navigation"><button id="prevDayBtn" class="nav-btn">&lt;</button><p id="currentDate"></p><button id="nextDayBtn" class="nav-btn">&gt;</button></div>
-        </header>
-        <div id="settingsBox" class="section-box" style="margin-bottom: 20px;"><div class="form-section"><label for="userName">Seu Nome (para registro de edições)</label><input type="text" id="userName" placeholder="Identifique-se para editar e finalizar dias."></div></div>
-        
-        <details id="actionBank" open>
-            <summary>💡 Banco de Ações Estratégicas (Clique para expandir)</summary>
-            <div class="action-bank-content" id="action-bank-content">
-                <h4>📚 Pedagógico & Retenção de Alunos</h4>
-                <div class="action-item">Analisar o tempo médio de conclusão dos 5 alunos mais antigos.</div>
-                <div class="action-item">Criar um 'quadro de honra' na unidade para alunos que concluíram um estágio.</div>
-                <div class="action-item">Mapear 3 alunos em 'platô' e agendar uma mini-reunião de 5 min com cada um.</div>
-                <div class="action-item">Verificar a programação de férias de 5 alunos e antecipar orientações.</div>
-                <div class="action-item">Identificar alunos com alta taxa de erros e planejar intervenções específicas.</div>
-                <div class="action-item">Organizar um evento de 'desafio de tabuada' ou 'leitura rápida'.</div>
-                <div class="action-item">Revisar a ficha de estudos de alunos que demonstraram desmotivação recente.</div>
-                <h4>📈 Captação & Marketing</h4>
-                <div class="action-item">Reativar o contato com 3 prospects antigos que não se matricularam.</div>
-                <div class="action-item">Pedir autorização para um depoimento em vídeo/texto de um pai satisfeito.</div>
-                <div class="action-item">Planejar um post para redes sociais sobre um caso de sucesso da unidade.</div>
-                <div class="action-item">Verificar se a fachada e a sinalização da unidade estão limpas e atrativas.</div>
-                <div class="action-item">Atualizar o Google Meu Negócio da unidade com novas fotos ou informações.</div>
-                <h4>👥 Gestão da Equipe & RH</h4>
-                <div class="action-item">Realizar um treinamento rápido de 5 min sobre a 'abordagem com alunos novos'.</div>
-                <div class="action-item">Dar um feedback positivo e específico para um colaborador que se destacou.</div>
-                <div class="action-item">Revisar a escala da equipe para a próxima semana, buscando otimizações.</div>
-                <div class="action-item">Delegar a tarefa de organização do estoque de material para um assistente.</div>
-                <h4>👨‍👩‍👧‍👦 Comunicação com os Pais</h4>
-                <div class="action-item">Ligar para 2 pais 'apenas para dar um feedback positivo' sobre o progresso do filho.</div>
-                <div class="action-item">Enviar um comunicado sobre a importância da rotina de estudos em casa.</div>
-                <div class="action-item">Identificar 3 pais com dúvidas recorrentes e agendar uma conversa de alinhamento.</div>
-                <h4>⚙️ Processos & Gestão da Unidade</h4>
-                <div class="action-item">Cronometrar o tempo gasto na correção de 10 blocos para identificar gargalos.</div>
-                <div class="action-item">Organizar a pasta de materiais da próxima semana.</div>
-                <div class="action-item">Revisar o fluxo de caixa do dia anterior e comparar com a meta.</div>
-                <div class="action-item">Dedicar 15 minutos para organizar a própria mesa e arquivos digitais.</div>
+            <div class="date-navigation">
+                <button id="prevDayBtn" class="nav-btn">&lt;</button>
+                <p id="currentDate"></p>
+                <button id="nextDayBtn" class="nav-btn">&gt;</button>
             </div>
-        </details>
+        </header>
 
-        <div class="daily-wrapper">
-            <div id="planningBox" class="section-box"><h2>Planejamento do Dia</h2><form id="planningForm"><fieldset id="planningFieldset"><div class="form-section"><label for="dailyFocus">Foco Principal do Dia</label><input type="text" id="dailyFocus" placeholder="Ex: Finalizar o cronograma de avaliações..."></div><div class="form-section"><label for="criticalTasks">Tarefas Críticas (Sua atuação direta)</label><textarea id="criticalTasks" rows="3" placeholder="Ex: Ligar para mãe do aluno X..."></textarea></div><div class="form-section"><label>A Realizar</label><ul id="todo-list" style="list-style-type: none; padding-left: 0;"></ul><div style="display:flex; gap: 5px; margin-top: 10px;"><input type="text" id="new-todo-input" placeholder="Nova tarefa..."><button type="button" id="add-todo-btn" style="padding: 0 15px;">+</button></div></div><div style="display: grid; gap: 20px; grid-template-columns: 1fr 1fr;"><div><label for="doing">Em Andamento</label><textarea id="doing"></textarea></div><div><label for="delegated">Delegado</label><textarea id="delegated"></textarea></div></div></fieldset></form></div>
-            <div id="reviewBox" class="section-box"><h2>Revisão e Fechamento do Dia</h2><form id="reviewForm"><fieldset id="reviewFieldset"><div class="form-section"><label for="mainAchievement">Principal Conquista</label><input type="text" id="mainAchievement"></div><div class="form-section"><label for="mainChallenge">Principal Desafio/Aprendizado</label><input type="text" id="mainChallenge"></div><div class="form-section"><label for="uncompletedTasks">O que não foi concluído e por quê?</label><textarea id="uncompletedTasks" rows="2"></textarea></div><div class="form-section"><label>KPIs do Dia</label><div style="display: grid; gap: 15px; grid-template-columns: repeat(3, 1fr);"><div><label for="kpiMatriculas">Matrículas</label><input type="number" id="kpiMatriculas" min="0" value="0"></div><div><label for="kpiCancelamentos">Cancelamentos</label><input type="number" id="kpiCancelamentos" min="0" value="0"></div><div><label for="energyLevel">Energia (1-5)</label><input type="number" id="energyLevel" min="1" max="5"></div></div></div></fieldset></form><div class="button-container"><button type="button" id="editDayBtn">Editar Dia</button><button type="button" id="endDayBtn">Analisar e Finalizar Dia</button></div><div id="nextDayTips"><h3>💡 Orientador Virtual para Amanhã</h3><p id="tipContent"></p></div><div class="edit-log" id="editLog"></div></div>
-        </div>
-        <div class="button-container" style="margin-top: 40px;"><button type="button" id="showWeeklySummaryBtn">Gerar Relatório da Semana</button></div>
-        <section id="weeklySummarySection"><h2 style="text-align:center; color: var(--kumon-blue); margin-bottom: 20px;">Painel de Controle da Semana</h2><pre id="weeklySummaryContent"></pre><div class="button-container" style="margin-top: 15px;"><button id="downloadDailyBtn">Download Relatório Diário</button><button id="downloadWeeklyBtn">Download Relatório Semanal</button></div></section>
-    </main>
-    <footer>
-        <p>Versão 8.6 (Final) - Desenvolvido com 🤖, por thIAguinho Soluções</p>
-        <div class="button-container" style="margin-top: 10px;"><button id="recoveryBtn">🆘 Modo de Recuperação de Dados</button></div>
-    </footer>
+        <main>
+            <section id="settingsBox" class="section-box">
+                <div class="form-section">
+                    <label for="userName">Nome do Gestor(a):</label>
+                    <input type="text" id="userName" placeholder="Identifique-se para registrar o histórico">
+                </div>
+            </section>
+            
+            <section id="actionBank" class="section-box">
+                <details>
+                    <summary>💡 Banco de Ações Estratégicas (Clique para expandir)</summary>
+                    <div id="actionBank-content">
+                        <!-- Content will be populated by JS -->
+                    </div>
+                </details>
+            </section>
+
+            <div class="daily-wrapper">
+                <fieldset id="planningFieldset">
+                    <h2>🗓️ Planejamento do Dia</h2>
+                    <form id="planningForm">
+                        <div class="form-section">
+                            <label for="dailyFocus">🎯 Foco Principal do Dia</label>
+                            <input type="text" id="dailyFocus" placeholder="Qual é a única tarefa que, se concluída, fará o dia valer a pena?">
+                        </div>
+                        <div class="form-section">
+                            <label for="criticalTasks">⚡ Tarefas Críticas (Sua atuação direta)</label>
+                            <textarea id="criticalTasks" rows="3" placeholder="Ex: Ligar para mãe do aluno X..."></textarea>
+                        </div>
+                        <div id="todo-section" class="form-section">
+                            <label for="new-todo-input">📋 A Realizar</label>
+                            <div class="todo-input-group">
+                                <input type="text" id="new-todo-input" placeholder="Adicionar nova tarefa...">
+                                <button type="button" id="add-todo-btn" class="btn">+</button>
+                            </div>
+                            <ul id="todo-list"></ul>
+                        </div>
+                        <div class="form-section">
+                            <label for="delegated">🤝 Delegado</label>
+                            <textarea id="delegated" rows="3" placeholder="Tarefas ou processos delegados hoje..."></textarea>
+                        </div>
+                    </form>
+                </fieldset>
+
+                <fieldset id="reviewFieldset">
+                    <h2>🧐 Revisão e Fechamento do Dia</h2>
+                    <form id="reviewForm">
+                        <div class="form-section">
+                            <label for="mainAchievement">🏆 Conquista Principal</label>
+                            <input type="text" id="mainAchievement" placeholder="O que te deixou orgulhoso(a) hoje?">
+                        </div>
+                        <div class="form-section">
+                            <label for="mainChallenge">🧗 Principal Desafio/Aprendizado</label>
+                            <input type="text" id="mainChallenge" placeholder="O que não saiu como planejado e o que você aprendeu?">
+                        </div>
+                        <div class="form-section">
+                            <label for="uncompletedTasks"> unfinished Tarefas não concluídas e por quê?</label>
+                            <textarea id="uncompletedTasks" rows="2"></textarea>
+                        </div>
+                        <div id="kpi-grid">
+                            <div class="form-section">
+                                <label for="kpiMatriculas">📈 Matrículas</label>
+                                <input type="number" id="kpiMatriculas" min="0" value="0">
+                            </div>
+                            <div class="form-section">
+                                <label for="kpiCancelamentos">📉 Cancelamentos</label>
+                                <input type="number" id="kpiCancelamentos" min="0" value="0">
+                            </div>
+                        </div>
+                         <div class="form-section">
+                            <label for="energyLevel">⚡ Nível de Energia (1 a 5)</label>
+                            <input type="range" id="energyLevel" min="1" max="5" value="3">
+                        </div>
+                    </form>
+                </fieldset>
+            </div>
+            
+            <div class="button-container">
+                <button id="endDayBtn" class="btn">Analisar e Finalizar Dia</button>
+                <button id="showWeeklySummaryBtn" class="btn">Gerar Resumo da Semana</button>
+            </div>
+
+            <section id="nextDayTips">
+                <h3>💡 Orientador Virtual para Amanhã</h3>
+                <pre id="tipContent"></pre>
+            </section>
+            
+            <section id="weeklySummarySection">
+                <h2>📊 Painel de Controle da Semana</h2>
+                <pre id="weeklySummaryContent"></pre>
+                <div class="button-container">
+                     <button id="downloadDailyBtn" class="btn download-btn">Download Relatório Diário</button>
+                     <button id="downloadWeeklyBtn" class="btn download-btn">Download Relatório Semanal</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Desenvolvido com 🤖, por THiAguinho Soluções</p>
+            <div class="button-container">
+                <button id="recoveryBtn" class="btn">🆘 Modo de Recuperação de Dados</button>
+            </div>
+        </footer>
+    </div>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const KNOWN_KEYS = ['kumonDailyLog_v8.1_DeepDiveMentor', 'kumonDailyLog_v8.0_Mentor'];
-        const CURRENT_STORAGE_KEY = KNOWN_KEYS[0];
-        const BACKUP_KEY = 'kumonDailyLog_BACKUP';
-        const USER_SETTINGS_KEY = 'kumonDiaryUserSettings';
-
+        
         const App = {
-            data: {}, userSettings: { name: '' }, displayedDate: new Date(), today: new Date(), isEditing: false,
-            init() { this.today.setHours(0, 0, 0, 0); this.displayedDate.setHours(0, 0, 0, 0); this.runMigration(); this.loadUserSettings(); this.loadData(); this.renderDay(this.getDateString(this.displayedDate)); this.addEventListeners(); this.registerServiceWorker(); },
-            runMigration() { const currentData = localStorage.getItem(CURRENT_STORAGE_KEY); if (currentData) return; for (const oldKey of KNOWN_KEYS) { const oldDataStr = localStorage.getItem(oldKey); if (oldDataStr) { localStorage.setItem(CURRENT_STORAGE_KEY, oldDataStr); alert(`Dados da versão anterior (${oldKey}) foram importados!`); return; } } },
-            loadData() { this.data = JSON.parse(localStorage.getItem(CURRENT_STORAGE_KEY)) || {}; },
-            saveData() { localStorage.setItem(BACKUP_KEY, JSON.stringify(this.data)); localStorage.setItem(CURRENT_STORAGE_KEY, JSON.stringify(this.data)); },
-            runRecovery() { if (!confirm("Procurar por dados de versões antigas?")) return; let foundData = []; for (let i = 0; i < localStorage.length; i++) { const key = localStorage.key(i); if (key.startsWith('kumonDailyLog')) { try { const data = JSON.parse(localStorage.getItem(key)); const dates = Object.keys(data); if (dates.length > 0) foundData.push({ key, count: dates.length, lastDate: dates.sort().pop() }); } catch (e) {} } } if (foundData.length === 0) { alert("Nenhum dado anterior encontrado."); return; } let msg = "Dados encontrados:\n\n"; foundData.forEach((item, i) => { msg += `[${i + 1}] Chave: ${item.key}\n    (${item.count} dias, último em ${item.lastDate})\n`; }); msg += "\nDigite o NÚMERO para restaurar:"; const choice = parseInt(prompt(msg), 10); if (choice > 0 && choice <= foundData.length) { const key = foundData[choice - 1].key; localStorage.setItem(CURRENT_STORAGE_KEY, localStorage.getItem(key)); alert(`Dados de '${key}' restaurados! A página será recarregada.`); location.reload(); } else { alert("Seleção inválida."); } },
-            getDateString: date => date.toISOString().split('T')[0],
-            loadUserSettings() { const settings = JSON.parse(localStorage.getItem(USER_SETTINGS_KEY)); if (settings) { this.userSettings = settings; } document.getElementById('userName').value = this.userSettings.name || ''; },
-            saveUserSettings() { this.userSettings.name = document.getElementById('userName').value.trim(); localStorage.setItem(USER_SETTINGS_KEY, JSON.stringify(this.userSettings)); },
+            // --- STATE ---
+            displayedDate: new Date(),
+            isEditing: true,
+            userSettings: { name: '' },
             
+            // --- CONSTANTS ---
+            // Using a new, final key to avoid conflicts
+            STORAGE_KEYS: {
+                // New definitive key format for daily logs
+                DATA_PREFIX: 'kumonDailyLog_v8.final_', 
+                // Settings key
+                USER_SETTINGS: 'kumonUserSettings_v8.final',
+                // Legacy keys for migration
+                LEGACY_KEYS: [
+                    'kumonDailyLog_v6.0_Navigable',
+                    'kumonDailyLog_v8.1_DeepDiveMentor',
+                    'kumonDailyLog_v8.0_Mentor',
+                    'kumonDailyLog_v8.2_Recovered'
+                ]
+            },
+
+            // --- DOM ELEMENTS ---
+            elements: {
+                currentDate: document.getElementById('currentDate'),
+                prevDayBtn: document.getElementById('prevDayBtn'),
+                nextDayBtn: document.getElementById('nextDayBtn'),
+                userName: document.getElementById('userName'),
+                planningFieldset: document.getElementById('planningFieldset'),
+                reviewFieldset: document.getElementById('reviewFieldset'),
+                endDayBtn: document.getElementById('endDayBtn'),
+                // Planning Form
+                dailyFocus: document.getElementById('dailyFocus'),
+                criticalTasks: document.getElementById('criticalTasks'),
+                todoList: document.getElementById('todo-list'),
+                newTodoInput: document.getElementById('new-todo-input'),
+                addTodoBtn: document.getElementById('add-todo-btn'),
+                delegated: document.getElementById('delegated'),
+                // Review Form
+                mainAchievement: document.getElementById('mainAchievement'),
+                mainChallenge: document.getElementById('mainChallenge'),
+                uncompletedTasks: document.getElementById('uncompletedTasks'),
+                kpiMatriculas: document.getElementById('kpiMatriculas'),
+                kpiCancelamentos: document.getElementById('kpiCancelamentos'),
+                energyLevel: document.getElementById('energyLevel'),
+                // Action Bank
+                actionBankContent: document.getElementById('actionBank-content'),
+                // Summaries & Tips
+                weeklySummarySection: document.getElementById('weeklySummarySection'),
+                weeklySummaryContent: document.getElementById('weeklySummaryContent'),
+                nextDayTips: document.getElementById('nextDayTips'),
+                tipContent: document.getElementById('tipContent'),
+                // Buttons
+                showWeeklySummaryBtn: document.getElementById('showWeeklySummaryBtn'),
+                downloadDailyBtn: document.getElementById('downloadDailyBtn'),
+                downloadWeeklyBtn: document.getElementById('downloadWeeklyBtn'),
+                recoveryBtn: document.getElementById('recoveryBtn'),
+            },
+
+            // --- INITIALIZATION ---
+            init() {
+                this.loadUserSettings();
+                this.populateActionBank();
+                this.addEventListeners();
+                this.renderDay(this.getDateString(this.displayedDate));
+            },
+            
+            // --- DATE HELPERS (CRITICAL FOR BUG FIX) ---
+            /**
+             * Converts a Date object to a standardized 'YYYY-MM-DD' string.
+             * This is the cornerstone of the bug fix, ensuring no timezone issues.
+             * @param {Date} date - The date object to convert.
+             * @returns {string} - The date string in 'YYYY-MM-DD' format.
+             */
+            getDateString(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            },
+
+            /**
+             * Parses a 'YYYY-MM-DD' string back into a Date object, correcting for timezone offsets.
+             * @param {string} dateString - The date string to convert.
+             * @returns {Date} - The corresponding Date object.
+             */
+            parseDateString(dateString) {
+                return new Date(dateString + 'T00:00:00');
+            },
+            
+            // --- DATA PERSISTENCE (localStorage) ---
+            loadData(dateString) {
+                const key = this.STORAGE_KEYS.DATA_PREFIX + dateString;
+                const data = localStorage.getItem(key);
+                return data ? JSON.parse(data) : null;
+            },
+
+            saveData(dateString, data) {
+                const key = this.STORAGE_KEYS.DATA_PREFIX + dateString;
+                localStorage.setItem(key, JSON.stringify(data));
+            },
+
+            loadUserSettings() {
+                const settings = localStorage.getItem(this.STORAGE_KEYS.USER_SETTINGS);
+                if (settings) {
+                    this.userSettings = JSON.parse(settings);
+                    this.elements.userName.value = this.userSettings.name || '';
+                }
+            },
+
+            saveUserSettings() {
+                this.userSettings.name = this.elements.userName.value.trim();
+                localStorage.setItem(this.STORAGE_KEYS.USER_SETTINGS, JSON.stringify(this.userSettings));
+            },
+
+            // Debounce utility to prevent excessive writes to localStorage
+            debounce(func, delay) {
+                let timeout;
+                return (...args) => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => func.apply(this, args), delay);
+                };
+            },
+
+            // --- UI RENDERING ---
             renderDay(dateString) {
-                document.getElementById('currentDate').textContent = this.displayedDate.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-                document.getElementById('nextDayBtn').disabled = this.getDateString(this.displayedDate) === this.getDateString(this.today);
-                document.getElementById('planningForm').reset(); document.getElementById('reviewForm').reset();
-                document.getElementById('todo-list').innerHTML = '';
-                document.getElementById('nextDayTips').style.display = 'none'; document.getElementById('editLog').style.display = 'none';
-                const dayData = this.data[dateString];
-                this.isEditing = false;
-                if (!dayData || !dayData.review) { this.isEditing = true; document.getElementById('editDayBtn').style.display = 'none'; document.getElementById('endDayBtn').style.display = 'block'; } else { document.getElementById('editDayBtn').style.display = 'block'; document.getElementById('editDayBtn').textContent = 'Editar Dia'; document.getElementById('editDayBtn').classList.remove('save-btn'); document.getElementById('endDayBtn').style.display = 'none'; }
-                this.toggleFieldsDisabled(!this.isEditing);
-                if (!dayData) return;
+                // Set displayed date from the string
+                this.displayedDate = this.parseDateString(dateString);
+
+                // Update date display
+                this.elements.currentDate.textContent = this.displayedDate.toLocaleDateString('pt-BR', {
+                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                });
+
+                // Load data for the date
+                const dayData = this.loadData(dateString) || {};
                 const plan = dayData.plan || {};
-                document.getElementById('dailyFocus').value = plan.dailyFocus || '';
-                document.getElementById('criticalTasks').value = plan.criticalTasks || '';
-                document.getElementById('doing').value = plan.doing || '';
-                document.getElementById('delegated').value = plan.delegated || '';
-                (plan.todo || []).forEach((task, index) => this.createTodoElement(task, index));
-                if (dayData.review) { const review = dayData.review || {}; Object.keys(review).forEach(key => { const el = document.getElementById(key); if (el) el.value = review[key]; }); this.generateTips(dayData); }
-                if (dayData.log && dayData.log.length > 0) { const lastEdit = dayData.log[dayData.log.length - 1]; const editDate = new Date(lastEdit.timestamp).toLocaleString('pt-BR'); document.getElementById('editLog').textContent = `Última edição por ${lastEdit.user} em ${editDate}.`; document.getElementById('editLog').style.display = 'block'; }
+                const review = dayData.review || {};
+
+                // Populate planning form
+                this.elements.dailyFocus.value = plan.dailyFocus || '';
+                this.elements.criticalTasks.value = plan.criticalTasks || '';
+                this.elements.delegated.value = plan.delegated || '';
+                
+                // Populate to-do list
+                this.elements.todoList.innerHTML = '';
+                if (plan.todo && plan.todo.length > 0) {
+                    plan.todo.forEach(task => this.createTodoElement(task));
+                }
+
+                // Populate review form
+                this.elements.mainAchievement.value = review.mainAchievement || '';
+                this.elements.mainChallenge.value = review.mainChallenge || '';
+                this.elements.uncompletedTasks.value = review.uncompletedTasks || '';
+                this.elements.kpiMatriculas.value = review.kpiMatriculas || 0;
+                this.elements.kpiCancelamentos.value = review.kpiCancelamentos || 0;
+                this.elements.energyLevel.value = review.energyLevel || 3;
+
+                // Set editing state
+                this.isEditing = dayData.isFinalized ? false : true;
+                this.toggleFieldsDisabled();
             },
-            toggleFieldsDisabled(isDisabled) { document.getElementById('planningFieldset').disabled = isDisabled; document.getElementById('reviewFieldset').disabled = isDisabled; },
-            toggleEditMode() { const dateString = this.getDateString(this.displayedDate); const dayData = this.data[dateString]; if (!dayData || !dayData.review) return; this.isEditing = !this.isEditing; this.toggleFieldsDisabled(!this.isEditing); const editBtn = document.getElementById('editDayBtn'); if (this.isEditing) { editBtn.textContent = 'Salvar Alterações'; editBtn.classList.add('save-btn'); } else { this.saveCurrentState(true); } },
-            addEventListeners() { document.getElementById('userName').addEventListener('change', () => this.saveUserSettings()); document.getElementById('endDayBtn').addEventListener('click', () => this.endDay()); document.getElementById('editDayBtn').addEventListener('click', () => this.toggleEditMode()); document.getElementById('showWeeklySummaryBtn').addEventListener('click', () => this.showWeeklySummary()); document.getElementById('prevDayBtn').addEventListener('click', () => this.navigateDays(-1)); document.getElementById('nextDayBtn').addEventListener('click', () => this.navigateDays(1)); document.getElementById('add-todo-btn').addEventListener('click', () => this.addTodoItem()); document.getElementById('new-todo-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); this.addTodoItem(); }}); document.getElementById('action-bank-content').addEventListener('click', (e) => { if (e.target.classList.contains('action-item')) this.addTodoItem(e.target.textContent); }); document.getElementById('todo-list').addEventListener('click', (e) => { if (e.target.classList.contains('delete-btn')) this.deleteTodoItem(e.target.dataset.index); }); document.getElementById('downloadDailyBtn').addEventListener('click', () => this.downloadReport('daily')); document.getElementById('downloadWeeklyBtn').addEventListener('click', () => this.downloadReport('weekly')); document.getElementById('recoveryBtn').addEventListener('click', () => this.runRecovery()); },
-            navigateDays(direction) { this.saveCurrentState(false); this.displayedDate.setDate(this.displayedDate.getDate() + direction); this.renderDay(this.getDateString(this.displayedDate)); },
-            addTodoItem(predefinedText = null) { const input = document.getElementById('new-todo-input'); const text = predefinedText || input.value.trim(); if (text) { const dateString = this.getDateString(this.displayedDate); if (!this.data[dateString]) { this.data[dateString] = { plan: { todo: [] } }; } this.data[dateString].plan.todo = this.data[dateString].plan.todo || []; this.data[dateString].plan.todo.push({ text, deferred: false }); this.saveData(); this.renderDay(dateString); input.value = ''; } },
-            deleteTodoItem(indexToDelete) { if (!confirm('Tem certeza?')) return; const dateString = this.getDateString(this.displayedDate); const dayData = this.data[dateString]; if (dayData?.plan?.todo) { dayData.plan.todo.splice(indexToDelete, 1); this.saveData(); this.renderDay(dateString); } },
-            createTodoElement(task, index) { const li = document.createElement('li'); li.innerHTML = `<span>${task.text}</span> <label style="font-weight:normal;font-size:.9em"><input type="checkbox" class="defer-checkbox" ${task.deferred?'checked':''}> Adiar</label> <button class="delete-btn" data-index="${index}">X</button>`; document.getElementById('todo-list').appendChild(li); },
-            saveCurrentState(isEditOrFinalizing = false) { const dateString = this.getDateString(this.displayedDate); if (isEditOrFinalizing && !this.userSettings.name) { alert("Preencha seu nome para registrar a ação."); document.getElementById('userName').focus(); return false; } const existingDayData = this.data[dateString] || { plan: {}, review: {}, log: [] }; const todoItems = Array.from(document.querySelectorAll('#todo-list li')).map(li => ({ text: li.querySelector('span').textContent, deferred: li.querySelector('.defer-checkbox').checked })); const planFromForm = { dailyFocus: document.getElementById('dailyFocus').value.trim(), criticalTasks: document.getElementById('criticalTasks').value.trim(), todo: todoItems, doing: document.getElementById('doing').value.trim(), delegated: document.getElementById('delegated').value.trim() }; const reviewFromForm = { mainAchievement: document.getElementById('mainAchievement').value.trim(), mainChallenge: document.getElementById('mainChallenge').value.trim(), uncompletedTasks: document.getElementById('uncompletedTasks').value.trim(), energyLevel: document.getElementById('energyLevel').value, kpiMatriculas: document.getElementById('kpiMatriculas').value, kpiCancelamentos: document.getElementById('kpiCancelamentos').value }; existingDayData.plan = { ...existingDayData.plan, ...planFromForm }; if(Object.values(reviewFromForm).some(v => v)) { existingDayData.review = { ...existingDayData.review, ...reviewFromForm }; } if (isEditOrFinalizing) { existingDayData.log = existingDayData.log || []; existingDayData.log.push({ user: this.userSettings.name || 'Usuário', timestamp: new Date().toISOString() }); } this.data[dateString] = existingDayData; this.saveData(); if (isEditOrFinalizing && !this.isEditing) { this.renderDay(dateString); } return true; },
-            endDay() { if (!document.getElementById('mainAchievement').value || !document.getElementById('energyLevel').value) { alert('Preencha a Conquista e a Energia para finalizar.'); return; } if (!this.saveCurrentState(true)) return; if (confirm('Tem certeza que deseja finalizar?')) { const dateString = this.getDateString(this.displayedDate); const dayData = this.data[dateString]; const deferredTasks = dayData.plan.todo.filter(t => t.deferred); if (deferredTasks.length > 0) { const nextDay = new Date(this.displayedDate); nextDay.setDate(nextDay.getDate() + 1); const nextDayString = this.getDateString(nextDay); if (!this.data[nextDayString]) this.data[nextDayString] = { plan: { todo: [] } }; this.data[nextDayString].plan.todo = this.data[nextDayString].plan.todo || []; deferredTasks.forEach(task => { this.data[nextDayString].plan.todo.unshift({ text: `[ADIADO] ${task.text}`, deferred: false }); }); } this.saveData(); this.renderDay(dateString); alert('Dia finalizado e analisado!'); } },
-            downloadReport(type) {
-                let content, filename;
+
+            createTodoElement(task) {
+                const li = document.createElement('li');
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = task.deferred;
+
+                const span = document.createElement('span');
+                span.textContent = task.text;
+                if (task.deferred) {
+                    span.style.textDecoration = 'line-through';
+                    span.style.color = 'var(--gray)';
+                }
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-todo-btn';
+                deleteBtn.innerHTML = '&times;';
+                deleteBtn.onclick = () => {
+                    li.remove();
+                    this.saveCurrentState();
+                };
+
+                li.appendChild(checkbox);
+                li.appendChild(span);
+                li.appendChild(deleteBtn);
+                
+                checkbox.addEventListener('change', () => {
+                     span.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
+                     span.style.color = checkbox.checked ? 'var(--gray)' : 'var(--text-color)';
+                     task.deferred = checkbox.checked;
+                     this.saveCurrentState();
+                });
+
+                this.elements.todoList.appendChild(li);
+            },
+
+            toggleFieldsDisabled() {
+                const isDisabled = !this.isEditing;
+                this.elements.planningFieldset.disabled = isDisabled;
+                this.elements.reviewFieldset.disabled = isDisabled;
+
+                if (isDisabled) {
+                    this.elements.endDayBtn.textContent = 'Editar Dia';
+                    this.elements.endDayBtn.classList.add('edit-mode');
+                } else {
+                    this.elements.endDayBtn.textContent = 'Analisar e Finalizar Dia';
+                    this.elements.endDayBtn.classList.remove('edit-mode');
+                }
+            },
+
+            // --- EVENT HANDLING ---
+            addEventListeners() {
+                // Navigation
+                this.elements.prevDayBtn.addEventListener('click', () => this.navigateDays(-1));
+                this.elements.nextDayBtn.addEventListener('click', () => this.navigateDays(1));
+
+                // Save on any input change (debounced)
+                const debouncedSave = this.debounce(this.saveCurrentState, 500);
+                const formElements = document.querySelectorAll('input, textarea');
+                formElements.forEach(el => el.addEventListener('input', debouncedSave));
+
+                // User settings
+                this.elements.userName.addEventListener('change', () => this.saveUserSettings());
+                
+                // To-Do functionality
+                this.elements.addTodoBtn.addEventListener('click', () => this.addTodoItem());
+                this.elements.newTodoInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        this.addTodoItem();
+                    }
+                });
+                
+                // Main action buttons
+                this.elements.endDayBtn.addEventListener('click', () => this.toggleFinalizeDay());
+                this.elements.showWeeklySummaryBtn.addEventListener('click', () => this.generateWeeklySummary());
+                
+                // Downloads
+                this.elements.downloadDailyBtn.addEventListener('click', () => this.downloadReport('daily'));
+                this.elements.downloadWeeklyBtn.addEventListener('click', () => this.downloadReport('weekly'));
+                
+                // Recovery
+                this.elements.recoveryBtn.addEventListener('click', () => this.runMigration());
+            },
+
+            // --- CORE LOGIC & ACTIONS ---
+
+            saveCurrentState() {
+                if (!this.isEditing) return;
+
                 const dateString = this.getDateString(this.displayedDate);
-                if (type === 'daily') { const dayData = this.data[dateString]; if (!dayData?.review) { alert('Finalize o dia para gerar o relatório.'); return; } content = this.generateDailyReportText(dayData); filename = `relatorio_diario_${dateString}.txt`;
-                } else { const { text } = this.generateWeeklyReportText(); if (text.includes("Nenhum dia foi finalizado")) { alert("Finalize ao menos um dia para gerar o relatório."); return; } content = text; filename = `relatorio_semanal_${dateString}.txt`; }
-                const element = document.createElement('a'); const file = new Blob([content], { type: 'text/plain;charset=utf-8' }); element.href = URL.createObjectURL(file); element.download = filename; document.body.appendChild(element); element.click(); document.body.removeChild(element);
+                
+                const todoItems = Array.from(this.elements.todoList.querySelectorAll('li')).map(li => ({
+                    text: li.querySelector('span').textContent,
+                    deferred: li.querySelector('input[type="checkbox"]').checked
+                }));
+
+                const dayData = {
+                    plan: {
+                        dailyFocus: this.elements.dailyFocus.value.trim(),
+                        criticalTasks: this.elements.criticalTasks.value.trim(),
+                        todo: todoItems,
+                        delegated: this.elements.delegated.value.trim(),
+                    },
+                    review: {
+                        mainAchievement: this.elements.mainAchievement.value.trim(),
+                        mainChallenge: this.elements.mainChallenge.value.trim(),
+                        uncompletedTasks: this.elements.uncompletedTasks.value.trim(),
+                        kpiMatriculas: this.elements.kpiMatriculas.value,
+                        kpiCancelamentos: this.elements.kpiCancelamentos.value,
+                        energyLevel: this.elements.energyLevel.value,
+                    },
+                    isFinalized: !this.isEditing,
+                    lastUpdated: new Date().toISOString()
+                };
+                
+                this.saveData(dateString, dayData);
+                console.log(`Data saved for ${dateString}`);
             },
-            showWeeklySummary() { const summarySection = document.getElementById('weeklySummarySection'); const { text } = this.generateWeeklyReportText(); summarySection.style.display = 'block'; document.getElementById('weeklySummaryContent').textContent = text; summarySection.scrollIntoView({ behavior: 'smooth' }); },
-            generateDailyReportText(dayData) { let text = `RELATÓRIO DIÁRIO - ${this.displayedDate.toLocaleDateString('pt-BR')}\n================================\n\n`; text += `FOCO: ${dayData.plan.dailyFocus || 'N/A'}\n\n`; text += `TAREFAS REALIZADAS:\n${(dayData.plan.todo || []).filter(t => !t.deferred).map(t => `- ${t.text}`).join('\n') || 'Nenhuma'}\n\n`; text += `CONQUISTA: ${dayData.review.mainAchievement || 'N/A'}\n`; text += `DESAFIO: ${dayData.review.mainChallenge || 'N/A'}\n`; text += `PENDÊNCIAS: ${dayData.review.uncompletedTasks || 'Nenhuma'}\n\n`; text += `KPIs: ${dayData.review.kpiMatriculas || 0} Matrículas, ${dayData.review.kpiCancelamentos || 0} Cancelamentos\n`; text += `ENERGIA: ${dayData.review.energyLevel || 'N/A'}/5\n`; return text; },
-            generateWeeklyReportText() { const today = new Date(this.displayedDate); today.setHours(0,0,0,0); const dayOfWeek = today.getDay(), offsetToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; const firstDayOfWeek = new Date(today); firstDayOfWeek.setDate(today.getDate() + offsetToMonday); let summaryText = `RELATÓRIO SEMANAL\nSemana de ${firstDayOfWeek.toLocaleDateString('pt-BR')}\n================================\n\n`; let daysData = []; for (let i = 0; i < 7; i++) { const date = new Date(firstDayOfWeek); date.setDate(date.getDate() + i); const dateString = this.getDateString(date); const dayData = this.data[dateString]; if (dayData?.review?.energyLevel) { daysData.push({ data: dayData }); const dayLabel = date.toLocaleDateString('pt-BR', {weekday: 'short', day: '2-digit', month: '2-digit'}); summaryText += `--- ${dayLabel.toUpperCase()} ---\n`; summaryText += `  Foco: ${dayData.plan.dailyFocus || 'N/D'}\n`; summaryText += `  Conquista: ${dayData.review.mainAchievement || 'N/D'}\n`; summaryText += `  Desafio: ${dayData.review.mainChallenge || 'N/D'}\n\n`; } } summaryText += daysData.length === 0 ? "Nenhum dia foi finalizado nesta semana." : this.generateProfessionalAnalysis(daysData); return { text }; },
-            generateProfessionalAnalysis(daysData) { let analysis = "--- ANÁLISE DA SEMANA ---\n"; const totalMatriculas = daysData.reduce((sum, d) => sum + (parseInt(d.data.review.kpiMatriculas, 10) || 0), 0); const totalCancelamentos = daysData.reduce((sum, d) => sum + (parseInt(d.data.review.kpiCancelamentos, 10) || 0), 0); const avgEnergy = daysData.reduce((sum, d) => sum + (parseInt(d.data.review.energyLevel, 10) || 0), 0) / daysData.length; analysis += `  Saldo de alunos: ${totalMatriculas - totalCancelamentos}\n`; analysis += `  Nível médio de energia: ${avgEnergy.toFixed(1)}/5.0\n\n`; if (totalCancelamentos > totalMatriculas) { analysis += `  RECOMENDAÇÃO: Foco em retenção. Mapear alunos desmotivados.\n`; } else if (totalMatriculas > 0) { analysis += `  RECOMENDAÇÃO: Momentum de captação. Intensificar o canal que mais trouxe alunos.\n`; } if (avgEnergy < 3) { analysis += `  RECOMENDAÇÃO: Gestão de energia. Delegar uma tarefa operacional para proteger seu foco.\n`; } return analysis; },
-            generateTips(dayData) { let tips = []; const { plan, review } = dayData; if (plan.dailyFocus && review.mainAchievement && !review.mainAchievement.toLowerCase().includes(plan.dailyFocus.toLowerCase().slice(0, 10))) { tips.push("INSIGHT: Sua conquista principal parece desconectada do foco do dia. Avalie se urgências estão desviando sua energia."); } if (review.uncompletedTasks) { tips.push(`PENDÊNCIAS: "${review.uncompletedTasks}". Avalie se devem ser a primeira prioridade de amanhã.`); } if (review.energyLevel <= 2) { tips.push(`ENERGIA: Nível baixo. Garanta uma pausa revigorante amanhã. Sua unidade precisa de você no seu melhor.`); } const tipsContainer = document.getElementById('nextDayTips'); document.getElementById('tipContent').textContent = tips.length > 0 ? tips.join('\n\n') : 'Dia produtivo! Mantenha o foco e a consistência.'; tipsContainer.style.display = 'block'; },
-            registerServiceWorker() { if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').then(reg => console.log('SW ok')).catch(err => console.log('SW falhou:', err)); }); } }
+            
+            navigateDays(direction) {
+                this.displayedDate.setDate(this.displayedDate.getDate() + direction);
+                this.renderDay(this.getDateString(this.displayedDate));
+            },
+
+            addTodoItem() {
+                const text = this.elements.newTodoInput.value.trim();
+                if (text) {
+                    this.createTodoElement({ text, deferred: false });
+                    this.elements.newTodoInput.value = '';
+                    this.saveCurrentState();
+                }
+            },
+            
+            toggleFinalizeDay() {
+                if (this.isEditing) {
+                    // Action: Finalize Day
+                    if (confirm('Tem certeza que deseja finalizar e analisar o dia? As tarefas pendentes serão movidas para amanhã.')) {
+                        
+                        // ** THE BUG FIX LOGIC STARTS HERE **
+
+                        // 1. Get current and next day strings correctly
+                        const currentDateString = this.getDateString(this.displayedDate);
+                        const nextDayDate = new Date(this.displayedDate);
+                        nextDayDate.setDate(nextDayDate.getDate() + 1);
+                        const nextDayString = this.getDateString(nextDayDate);
+
+                        // 2. Collect pending tasks
+                        const deferredTasks = Array.from(this.elements.todoList.querySelectorAll('li'))
+                            .map(li => ({
+                                text: li.querySelector('span').textContent,
+                                deferred: li.querySelector('input[type="checkbox"]').checked
+                            }))
+                            .filter(task => !task.deferred);
+                        
+                        // 3. Mark all current tasks as done before saving
+                        Array.from(this.elements.todoList.querySelectorAll('li input[type="checkbox"]')).forEach(cb => cb.checked = true);
+                        
+                        // 4. Finalize and save the CURRENT day
+                        this.isEditing = false;
+                        this.saveCurrentState(); // Saves current day data with isFinalized = true
+
+                        // 5. Load or create NEXT day's data
+                        let nextDayData = this.loadData(nextDayString) || { plan: { todo: [] }, review: {}, isFinalized: false };
+                        if (!nextDayData.plan) nextDayData.plan = {};
+                        if (!nextDayData.plan.todo) nextDayData.plan.todo = [];
+
+                        // 6. Prepend deferred tasks to the NEXT day
+                        const tasksToCarryOver = deferredTasks.map(task => ({
+                            text: `[ADIADO] ${task.text}`,
+                            deferred: false
+                        }));
+                        nextDayData.plan.todo = [...tasksToCarryOver, ...nextDayData.plan.todo];
+
+                        // 7. Save the updated NEXT day data
+                        this.saveData(nextDayString, nextDayData);
+
+                        alert(`Dia finalizado! ${deferredTasks.length} tarefa(s) adiada(s) para ${nextDayDate.toLocaleDateString('pt-BR')}.`);
+
+                        // 8. Re-render the current day UI in locked state
+                        this.renderDay(currentDateString);
+                    }
+                } else {
+                    // Action: Edit Day
+                    this.isEditing = true;
+                    this.toggleFieldsDisabled();
+                    // Save the change in state immediately
+                    this.saveCurrentState(); 
+                }
+            },
+
+            generateReportText(dateString, type = 'daily') {
+                const data = this.loadData(dateString);
+                if (!data) return `Nenhum dado encontrado para ${dateString}.\n`;
+
+                const plan = data.plan || {};
+                const review = data.review || {};
+                const date = this.parseDateString(dateString);
+                
+                let report = `RELATÓRIO DE ${date.toLocaleDateString('pt-BR', { dateStyle: 'full' })}\n`;
+                report += `=================================================\n\n`;
+                
+                report += `[PLANEJAMENTO]\n`;
+                report += `🎯 Foco: ${plan.dailyFocus || 'Não definido'}\n`;
+                report += `⚡ Tarefas Críticas: ${plan.criticalTasks || 'Nenhuma'}\n`;
+                report += `🤝 Delegado: ${plan.delegated || 'Nenhuma'}\n`;
+                report += `📋 A Realizar:\n${(plan.todo && plan.todo.length > 0) ? plan.todo.map(t => `  - ${t.text}`).join('\n') : '  Nenhuma'}\n\n`;
+
+                report += `[REVISÃO]\n`;
+                report += `🏆 Conquista: ${review.mainAchievement || 'Não definida'}\n`;
+                report += `🧗 Desafio/Aprendizado: ${review.mainChallenge || 'Não definido'}\n`;
+                report += ` unfinished Pendências: ${review.uncompletedTasks || 'Nenhuma'}\n`;
+                report += `📈 Matrículas: ${review.kpiMatriculas || 0}\n`;
+                report += `📉 Cancelamentos: ${review.kpiCancelamentos || 0}\n`;
+                report += `⚡ Energia: ${review.energyLevel || 'N/A'}/5\n`;
+                
+                return report;
+            },
+
+            generateWeeklySummary() {
+                this.elements.weeklySummarySection.style.display = 'block';
+                let summaryText = 'RESUMO DA PERFORMANCE SEMANAL\n\n';
+                let totalMatriculas = 0;
+                let totalCancelamentos = 0;
+                let energySum = 0;
+                let daysLogged = 0;
+
+                for (let i = 6; i >= 0; i--) {
+                    const date = new Date(this.displayedDate);
+                    date.setDate(date.getDate() - i);
+                    const dateString = this.getDateString(date);
+                    const data = this.loadData(dateString);
+                    
+                    summaryText += `--- ${date.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' })} ---\n`;
+                    if (data && data.review) {
+                        summaryText += `Conquista: ${data.review.mainAchievement || '-'}\n`;
+                        totalMatriculas += parseInt(data.review.kpiMatriculas || 0, 10);
+                        totalCancelamentos += parseInt(data.review.kpiCancelamentos || 0, 10);
+                        energySum += parseInt(data.review.energyLevel || 0, 10);
+                        daysLogged++;
+                    } else {
+                        summaryText += `Nenhum dado registrado.\n`;
+                    }
+                    summaryText += '\n';
+                }
+
+                const avgEnergy = daysLogged > 0 ? (energySum / daysLogged).toFixed(1) : 'N/A';
+                
+                summaryText += `=========================\n`;
+                summaryText += `TOTAL NA SEMANA:\n`;
+                summaryText += `Matrículas: ${totalMatriculas}\n`;
+                summaryText += `Cancelamentos: ${totalCancelamentos}\n`;
+                summaryText += `Saldo: ${totalMatriculas - totalCancelamentos}\n`;
+                summaryText += `Média de Energia: ${avgEnergy}/5\n`;
+
+                this.elements.weeklySummaryContent.textContent = summaryText;
+                this.elements.weeklySummarySection.scrollIntoView();
+            },
+
+            downloadReport(type) {
+                let textContent = '';
+                let filename = '';
+                const todayStr = this.getDateString(this.displayedDate);
+
+                if (type === 'daily') {
+                    textContent = this.generateReportText(todayStr);
+                    filename = `Relatorio_Diario_Kumon_${todayStr}.txt`;
+                } else {
+                    textContent = this.elements.weeklySummaryContent.textContent;
+                    filename = `Relatorio_Semanal_Kumon_${todayStr}.txt`;
+                }
+
+                if (!textContent.trim()) {
+                    alert('Nenhum conteúdo para gerar o relatório.');
+                    return;
+                }
+
+                const element = document.createElement('a');
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textContent));
+                element.setAttribute('download', filename);
+                element.style.display = 'none';
+                document.body.appendChild(element);
+                element.click();
+                document.body.removeChild(element);
+            },
+            
+            runMigration() {
+                if (!confirm("Isso tentará encontrar dados de versões antigas e importá-los para o formato atual. Continuar?")) {
+                    return;
+                }
+                
+                let migratedCount = 0;
+                let potentialData = {};
+                
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    // Find all legacy keys
+                    this.STORAGE_KEYS.LEGACY_KEYS.forEach(legacyPrefix => {
+                         if (key.startsWith(legacyPrefix)) {
+                            try {
+                                const data = JSON.parse(localStorage.getItem(key));
+                                // Try to determine the date from legacy data
+                                Object.keys(data).forEach(dateStr => {
+                                    // A simple check if the key is a date string like '2025-10-08'
+                                    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+                                       potentialData[dateStr] = data[dateStr];
+                                    }
+                                });
+                            } catch (e) {
+                                console.error(`Failed to parse legacy data from key ${key}:`, e);
+                            }
+                        }
+                    });
+                }
+                
+                Object.keys(potentialData).forEach(dateStr => {
+                    const newDataKey = this.STORAGE_KEYS.DATA_PREFIX + dateStr;
+                    if (!localStorage.getItem(newDataKey)) { // Don't overwrite new data
+                       this.saveData(dateStr, potentialData[dateStr]);
+                       migratedCount++;
+                    }
+                });
+
+                if (migratedCount > 0) {
+                    alert(`${migratedCount} dia(s) de dados antigos foram migrados com sucesso! Por favor, navegue pelos dias para verificar.`);
+                    this.renderDay(this.getDateString(this.displayedDate)); // Refresh current view
+                } else {
+                    alert("Nenhum dado de versões antigas compatíveis foi encontrado para migração.");
+                }
+            },
+
+            populateActionBank() {
+                const actions = {
+                    "Pedagógico & Retenção de Alunos": [
+                        "Analisar os 5 alunos mais antigos",
+                        "Criar um 'quadro de honra' na unidade",
+                        "Mapear 3 alunos em 'platô' e agendar mini-reunião",
+                        "Verificar a programação de férias de 5 alunos e antecipar orientações"
+                    ],
+                    "Gestão da Equipe & RH": [
+                        "Realizar minitreinamento de 5 min",
+                        "Dar um feedback positivo e específico",
+                        "Revisar a escala da próxima semana, buscando otimizações"
+                    ],
+                    "Comunicação com os Pais": [
+                        "Ligar para 2 pais 'apenas para dar um feedback positivo'",
+                        "Enviar um comunicado sobre a importância da rotina de estudos"
+                    ]
+                };
+
+                let html = '';
+                for (const category in actions) {
+                    html += `<div class="action-category"><h4>${category}</h4>`;
+                    actions[category].forEach(action => {
+                        html += `<button class="action-item">${action}</button>`;
+                    });
+                    html += `</div>`;
+                }
+                this.elements.actionBankContent.innerHTML = html;
+                
+                // Add event listener for all action items
+                this.elements.actionBankContent.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('action-item')) {
+                        this.elements.newTodoInput.value = e.target.textContent;
+                        this.addTodoItem();
+                    }
+                });
+            }
         };
+
         App.init();
     });
     </script>
 </body>
 </html>
+
